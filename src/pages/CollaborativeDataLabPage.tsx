@@ -21,6 +21,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LikesChip from '../components/LikesChip';
+import '../styles/CollaborativeDataLabPage.css';
 
 const MODES = ['VIEW', 'COMMENT'] as const;
 type Mode = typeof MODES[number];
@@ -83,7 +84,20 @@ export default function CollaborativeDataLabPage() {
                             </ToggleButton>
                         )}
                     </ToggleButtonGroup>
-                    <Button fullWidth variant="contained" startIcon={<FileUploadIcon/>}>Import</Button>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        component="label"
+                        role={undefined}
+                        startIcon={<FileUploadIcon/>}
+                    >
+                        Import
+                        <input
+                            className="hidden-input"
+                            type="file"
+                            multiple
+                        />
+                    </Button>
                     <Button fullWidth variant="contained" startIcon={<AddIcon/>}>New Chart</Button>
                     <Button fullWidth variant="contained" startIcon={<EditIcon/>}>Edit Chart</Button>
                 </Box>
