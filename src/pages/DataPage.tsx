@@ -134,7 +134,7 @@ export default function DataPage(props: DataPageProps) {
                             />
                         </Badge>}
                         <Typography variant="subtitle1" sx={{ marginBlock: 0 }}>
-                            {props.pageType === 'COLLABORATIVE' ? 'You & Katy Bryant are collaborating' : 'Just you'}
+                            {props.pageType === 'COLLABORATIVE' ? 'You, Katy B. and Dave C. are collaborating' : 'Just you'}
                         </Typography>
                         {props.pageType === 'COLLABORATIVE' && <IconButton onClick={toggleCursorsVisible}>
                             {areCursorsVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
