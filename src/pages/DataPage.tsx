@@ -13,9 +13,13 @@ import Box from '@mui/material/Box';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import Chip from '@mui/material/Chip';
+import Badge from '@mui/material/Badge';
+import IconButton from '@mui/material/IconButton';
 import {PopoverPosition} from '@mui/material/Popover';
 import {BarChart} from '@mui/x-charts/BarChart';
 import {ChartsAxisData} from '@mui/x-charts/ChartsOnAxisClickHandler';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
 import NearMeIcon from '@mui/icons-material/NearMe';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
@@ -27,6 +31,7 @@ import {Link} from 'react-router';
 import LikesChip from '../components/LikesChip';
 import NewCommentPopover from "../components/NewCommentPopover";
 import CommentBubble from '../components/CommentBubble';
+import CursorOverlay from '../components/CursorOverlay';
 import Position from '../types/Position';
 import {COMMENT_TYPES} from '../constants/comments';
 import '../styles/CollaborativeDataLabPage.css';
@@ -44,10 +49,15 @@ interface DataPageProps {
 }
 
 export default function DataPage(props: DataPageProps) {
+    const [areCursorsVisible, setAreCursorsVisible] = useState(props.pageType === 'COLLABORATIVE');
     const [currentChart, setCurrentChart] = useState(0);
     const [mode, setMode] = useState<Mode>('VIEW');
     const [newCommentPopoverPosition, setNewCommentPopoverPosition] = useState<PopoverPosition | null>(null);
     const [commentsPositions, setCommentsPositions] = useState<Position[]>([]);
+
+    function toggleCursorsVisible() {
+        setAreCursorsVisible(current => !current);
+    }
 
     function onChartChange(event: SyntheticEvent, newChartIndex: number) {
         setCurrentChart(newChartIndex);
@@ -78,12 +88,46 @@ export default function DataPage(props: DataPageProps) {
                 <Box>
                     <h2>{props.pageType === 'COLLABORATIVE' ? 'Collaborative Data Lab' : 'Data Exploration'}</h2>
                     <Box sx={{display: "flex", alignItems: "center", gap: 1, marginTop: -1, marginBottom: 2 }}>
-                        <Avatar
-                            alt="Profile picture"
-                            src="https://thispersondoesnotexist.com"
-                            sx={{ width: 32, height: 32 }}
-                        />
-                        <Typography variant="subtitle1" sx={{ marginBlock: 0 }}>Just you</Typography>
+                        <Badge
+                            variant="dot"
+                            overlap="circular"
+                            badgeContent=""
+                            // Make dot invisible on Data Exploration page, as it's only used to show the color of
+                            // a user's cursor and the cursors aren't visible on that page
+                            color={props.pageType === 'COLLABORATIVE' ? "primary" : undefined}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            }}
+                        >
+                            <Avatar
+                                alt="Profile picture"
+                                src="https://thispersondoesnotexist.com"
+                                sx={{ width: 32, height: 32 }}
+                            />
+                        </Badge>
+                        {props.pageType === 'COLLABORATIVE' && <Badge
+                            variant="dot"
+                            overlap="circular"
+                            badgeContent=""
+                            color="secondary"
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            }}
+                        >
+                            <Avatar
+                                alt="Profile picture"
+                                src="https://thispersondoesnotexist.com"
+                                sx={{ width: 32, height: 32 }}
+                            />
+                        </Badge>}
+                        <Typography variant="subtitle1" sx={{ marginBlock: 0 }}>
+                            {props.pageType === 'COLLABORATIVE' ? 'You & Katy Bryant are collaborating' : 'Just you'}
+                        </Typography>
+                        {props.pageType === 'COLLABORATIVE' && <IconButton onClick={toggleCursorsVisible}>
+                            {areCursorsVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                        </IconButton>}
                     </Box>
                 </Box>
                 <Button
@@ -176,6 +220,7 @@ export default function DataPage(props: DataPageProps) {
                     </Accordion>
                 )
             }
+            <CursorOverlay visible={areCursorsVisible} />
         </div>
     );
 }
