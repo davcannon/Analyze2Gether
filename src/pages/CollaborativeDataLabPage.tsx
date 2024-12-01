@@ -1,4 +1,4 @@
-import React, {useState, SyntheticEvent, MouseEvent, ReactNode} from 'react';
+import React, {useState, SyntheticEvent, MouseEvent as ReactMouseEvent, ReactNode} from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import Chip from '@mui/material/Chip';
+import {PopoverPosition} from '@mui/material/Popover';
 import {BarChart} from '@mui/x-charts/BarChart';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
@@ -22,6 +23,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LikesChip from '../components/LikesChip';
 import '../styles/CollaborativeDataLabPage.css';
+import {ChartsAxisData} from "@mui/x-charts";
+import NewCommentPopover from "../components/NewCommentPopover";
+import CommentBubble from '../components/CommentBubble';
+import Position from '../types/Position';
+import {COMMENT_TYPES} from '../constants/comments';
 
 const MODES = ['VIEW', 'COMMENT'] as const;
 type Mode = typeof MODES[number];
@@ -34,13 +40,30 @@ const MODE_ICONS: Record<Mode, ReactNode> = {
 export default function CollaborativeDataLabPage() {
     const [currentChart, setCurrentChart] = useState(0);
     const [mode, setMode] = useState<Mode>('VIEW');
+    const [newCommentPopoverPosition, setNewCommentPopoverPosition] = useState<PopoverPosition | null>(null);
+    const [commentsPositions, setCommentsPositions] = useState<Position[]>([]);
 
     function onChartChange(event: SyntheticEvent, newChartIndex: number) {
         setCurrentChart(newChartIndex);
     }
 
-    function onModeChange(event: MouseEvent<HTMLElement>, newMode: Mode | null) {
+    function onModeChange(event: ReactMouseEvent<HTMLElement>, newMode: Mode | null) {
         if (newMode) setMode(newMode);
+    }
+
+    function onNewCommentClick(event: MouseEvent, data: ChartsAxisData | null) {
+        setNewCommentPopoverPosition({ top: event.clientY, left: event.clientX });
+    }
+
+    function onNewCommentPopoverClosed() {
+        // Create a comment at the click position previously used to display the new comment popover
+        if (newCommentPopoverPosition) {
+            setCommentsPositions([
+                ...commentsPositions,
+                {x: newCommentPopoverPosition.left, y: newCommentPopoverPosition.top }
+            ]);
+        }
+        setNewCommentPopoverPosition(null);
     }
 
     return (
@@ -64,10 +87,16 @@ export default function CollaborativeDataLabPage() {
                         </Tabs>
                     </Box>
                     <BarChart
+                        className={mode === 'COMMENT' ? 'chart-comment-mode' : undefined}
+                        height={350}
+                        // Disable tooltip in comment mode
+                        tooltip={{ trigger: mode === 'COMMENT' ? 'none' : undefined }}
                         xAxis={[{scaleType: 'band', data: ['group A', 'group B', 'group C']}]}
                         series={[{data: [4, 3, 5]}, {data: [1, 6, 3]}, {data: [2, 5, 6]}]}
-                        height={350}
+                        onAxisClick={mode === 'COMMENT' ? onNewCommentClick : undefined}
                     />
+                    <NewCommentPopover position={newCommentPopoverPosition} onClosed={onNewCommentPopoverClosed} />
+                    {commentsPositions.map((position) => <CommentBubble position={position} />)}
                 </Box>
                 {/* Sidebar */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: 200, paddingX: 2, gap: 1 }}>
@@ -104,7 +133,7 @@ export default function CollaborativeDataLabPage() {
             </Box>
             <h2>Comments</h2>
             {
-                ["Trend", "Outlier", "Data Quality"].map((commentType) =>
+                COMMENT_TYPES.map((commentType) =>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

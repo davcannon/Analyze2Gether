@@ -1,3 +1,7 @@
+.chart-comment-mode {
+    cursor: url(../images/add-comment-icon.svg), auto;
+}
+
 .hidden-input {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
