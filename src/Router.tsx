@@ -2,8 +2,7 @@ import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router';
 import HomePage from './pages/HomePage';
 import ProjectPage from './pages/ProjectPage';
-import CollaborativeDataLabPage from './pages/CollaborativeDataLabPage';
-import DataExplorationPage from './pages/DataExplorationPage';
+import DataPage from './pages/DataPage';
 import PageLayout from './components/PageLayout';
 
 export default function Router() {
@@ -16,8 +15,8 @@ export default function Router() {
                     <Route index element={<HomePage />} />
                     <Route path="projects/:projectId">
                         <Route index element={<ProjectPage />} />
-                        <Route path="collaborative" element={<CollaborativeDataLabPage />} />
-                        <Route path="exploration" element={<DataExplorationPage />} />
+                        <Route path="collaborative" element={<DataPage pageType="COLLABORATIVE" />} />
+                        <Route path="exploration" element={<DataPage pageType="EXPLORATION" />} />
                     </Route>
                 </Route>
             </Routes>

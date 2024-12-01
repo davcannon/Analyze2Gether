@@ -15,19 +15,21 @@ import ToggleButton from '@mui/material/ToggleButton';
 import Chip from '@mui/material/Chip';
 import {PopoverPosition} from '@mui/material/Popover';
 import {BarChart} from '@mui/x-charts/BarChart';
+import {ChartsAxisData} from '@mui/x-charts/ChartsOnAxisClickHandler';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
 import NearMeIcon from '@mui/icons-material/NearMe';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {Link} from 'react-router';
 import LikesChip from '../components/LikesChip';
-import '../styles/CollaborativeDataLabPage.css';
-import {ChartsAxisData} from "@mui/x-charts";
 import NewCommentPopover from "../components/NewCommentPopover";
 import CommentBubble from '../components/CommentBubble';
 import Position from '../types/Position';
 import {COMMENT_TYPES} from '../constants/comments';
+import '../styles/CollaborativeDataLabPage.css';
 
 const MODES = ['VIEW', 'COMMENT'] as const;
 type Mode = typeof MODES[number];
@@ -37,7 +39,11 @@ const MODE_ICONS: Record<Mode, ReactNode> = {
     COMMENT: <ModeCommentIcon />,
 }
 
-export default function CollaborativeDataLabPage() {
+interface DataPageProps {
+    pageType: 'EXPLORATION' | 'COLLABORATIVE';
+}
+
+export default function DataPage(props: DataPageProps) {
     const [currentChart, setCurrentChart] = useState(0);
     const [mode, setMode] = useState<Mode>('VIEW');
     const [newCommentPopoverPosition, setNewCommentPopoverPosition] = useState<PopoverPosition | null>(null);
@@ -68,14 +74,29 @@ export default function CollaborativeDataLabPage() {
 
     return (
         <div>
-            <h2>Collaborative Data Lab</h2>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, marginTop: -1, marginBottom: 2 }}>
-                <Avatar
-                    alt="Profile picture"
-                    src="https://thispersondoesnotexist.com"
-                    sx={{ width: 32, height: 32 }}
-                />
-                <Typography variant="subtitle1" sx={{ marginBlock: 0 }}>Just you</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Box>
+                    <h2>{props.pageType === 'COLLABORATIVE' ? 'Collaborative Data Lab' : 'Data Exploration'}</h2>
+                    <Box sx={{display: "flex", alignItems: "center", gap: 1, marginTop: -1, marginBottom: 2 }}>
+                        <Avatar
+                            alt="Profile picture"
+                            src="https://thispersondoesnotexist.com"
+                            sx={{ width: 32, height: 32 }}
+                        />
+                        <Typography variant="subtitle1" sx={{ marginBlock: 0 }}>Just you</Typography>
+                    </Box>
+                </Box>
+                <Button
+                    startIcon={<ChangeCircleIcon />}
+                    component={Link}
+                    to={props.pageType === 'COLLABORATIVE'
+                        ? '../exploration'
+                        : '../collaborative'
+                    }
+                    sx={{ height: 'fit-content' }}
+                >
+                    SWITCH TO {props.pageType === 'COLLABORATIVE' ? 'Data Exploration' : 'Collaborative Data Lab'}
+                </Button>
             </Box>
             <Box sx={{ display: 'flex' }}>
                 {/* Chart */}
