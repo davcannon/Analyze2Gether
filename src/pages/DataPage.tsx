@@ -32,9 +32,11 @@ import LikesChip from '../components/LikesChip';
 import NewCommentPopover from "../components/NewCommentPopover";
 import CommentBubble from '../components/CommentBubble';
 import CursorOverlay from '../components/CursorOverlay';
+import ChartTypeMenu from '../components/ChartTypeMenu';
 import Position from '../types/Position';
 import {COMMENT_TYPES} from '../constants/comments';
-import '../styles/CollaborativeDataLabPage.css';
+import '../styles/DataPage.css';
+
 
 const MODES = ['VIEW', 'COMMENT'] as const;
 type Mode = typeof MODES[number];
@@ -52,6 +54,7 @@ export default function DataPage(props: DataPageProps) {
     const [areCursorsVisible, setAreCursorsVisible] = useState(props.pageType === 'COLLABORATIVE');
     const [currentChart, setCurrentChart] = useState(0);
     const [mode, setMode] = useState<Mode>('VIEW');
+    const [chartTypeMenuAnchorElement, setChartTypeMenuAnchorElement] = useState<null | HTMLElement>(null);
     const [newCommentPopoverPosition, setNewCommentPopoverPosition] = useState<PopoverPosition | null>(null);
     const [commentsPositions, setCommentsPositions] = useState<Position[]>([]);
 
@@ -65,6 +68,14 @@ export default function DataPage(props: DataPageProps) {
 
     function onModeChange(event: ReactMouseEvent<HTMLElement>, newMode: Mode | null) {
         if (newMode) setMode(newMode);
+    }
+
+    function openChartTypeMenu(event: ReactMouseEvent<HTMLElement>) {
+        setChartTypeMenuAnchorElement(event.currentTarget);
+    }
+
+    function closeChartTypeMenu() {
+        setChartTypeMenuAnchorElement(null);
     }
 
     function onNewCommentClick(event: MouseEvent, data: ChartsAxisData | null) {
@@ -192,8 +203,22 @@ export default function DataPage(props: DataPageProps) {
                             multiple
                         />
                     </Button>
-                    <Button fullWidth variant="contained" startIcon={<AddIcon/>}>New Chart</Button>
-                    <Button fullWidth variant="contained" startIcon={<EditIcon/>}>Edit Chart</Button>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        startIcon={<AddIcon/>}
+                        onClick={openChartTypeMenu}
+                    >
+                        New Chart
+                    </Button>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        startIcon={<EditIcon/>}
+                        onClick={openChartTypeMenu}
+                    >
+                        Edit Chart
+                    </Button>
                 </Box>
             </Box>
             <h2>Comments</h2>
@@ -220,6 +245,7 @@ export default function DataPage(props: DataPageProps) {
                     </Accordion>
                 )
             }
+            <ChartTypeMenu anchorElement={chartTypeMenuAnchorElement} onClosed={closeChartTypeMenu} />
             <CursorOverlay visible={areCursorsVisible} />
         </div>
     );
