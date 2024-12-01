@@ -1,4 +1,4 @@
-import React, {useState, SyntheticEvent, MouseEvent as ReactMouseEvent, ReactNode} from 'react';
+import React, {useState, SyntheticEvent, MouseEvent as ReactMouseEvent, ReactNode, useEffect} from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -51,7 +51,7 @@ interface DataPageProps {
 }
 
 export default function DataPage(props: DataPageProps) {
-    const [areCursorsVisible, setAreCursorsVisible] = useState(props.pageType === 'COLLABORATIVE');
+    const [areCursorsVisible, setAreCursorsVisible] = useState(true);
     const [currentChart, setCurrentChart] = useState(0);
     const [mode, setMode] = useState<Mode>('VIEW');
     const [chartTypeMenuAnchorElement, setChartTypeMenuAnchorElement] = useState<null | HTMLElement>(null);
@@ -246,7 +246,7 @@ export default function DataPage(props: DataPageProps) {
                 )
             }
             <ChartTypeMenu anchorElement={chartTypeMenuAnchorElement} onClosed={closeChartTypeMenu} />
-            <CursorOverlay visible={areCursorsVisible} />
+            <CursorOverlay visible={props.pageType === 'COLLABORATIVE' && areCursorsVisible} />
         </div>
     );
 }
