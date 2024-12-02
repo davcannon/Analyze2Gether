@@ -8,5 +8,7 @@ export default function PageLayout() {
       <Header />
       <Outlet />
     </>
+
+
   );
 }
