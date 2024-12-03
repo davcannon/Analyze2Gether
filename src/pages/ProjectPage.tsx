@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router";
-import { Box, Typography} from "@mui/material";
-import { PieChart } from "@mui/x-charts/PieChart";
-import { BarChart } from "@mui/x-charts/BarChart";
-import TaskTracker from "../components/TaskTracker";
+import React from 'react';
+import { Link } from 'react-router';
+import { Box, Typography} from '@mui/material';
+import { PieChart } from '@mui/x-charts/PieChart';
+import { BarChart } from '@mui/x-charts/BarChart';
+import TaskTracker from '../components/TaskTracker';
 
 export default function ProjectPage() {
 
