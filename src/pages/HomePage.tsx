@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from "react-router";
+
 
 export default function HomePage() {
     return (
@@ -33,31 +35,63 @@ export default function HomePage() {
                         <img src={require('../assets/images/Star.png')} />
                     </div>
                     <div>
-                        <h2>VLE versus Grades</h2>
+                    <Link to="/projects/1" style={{ textDecoration: "none", color: "inherit" }}>
+                    <h2>VLE versus Grades</h2>
+                    </Link>
                         <p>Study of student participations with VLE and their corresponding grades</p>
                     </div>
-                    <button className={"card-homepage-button"}>DE</button><button className={"card-homepage-button"}>CDL</button>
+                    <Link to="/projects/1/exploration" style={{ textDecoration: "none", color: "inherit" }}>
+                    <button className={"card-homepage-button"}>
+                        DE
+                    </button>
+                    </Link>
+                    <Link to="/projects/1/collaborative" style={{ textDecoration: "none", color: "inherit" }}>
+                    <button className={"card-homepage-button"}>
+                        CDL
+                    </button>
+                    </Link>
                 </div>
                 <div className="card-homepage-grid">
                     <div>
-                        <img src={require('../assets/images/Star.png')}/>
+                        <img src={require('../assets/images/Star.png')} />
                     </div>
                     <div>
-                        <h2>VLE versus Grades</h2>
+                    <Link to="/projects/1" style={{ textDecoration: "none", color: "inherit" }}>
+                    <h2>VLE versus Grades</h2>
+                    </Link>
                         <p>Study of student participations with VLE and their corresponding grades</p>
                     </div>
-                    <button className={"card-homepage-button"}>DE</button><button className={"card-homepage-button"}>CDL</button>
-
+                    <Link to="/projects/1/exploration" style={{ textDecoration: "none", color: "inherit" }}>
+                    <button className={"card-homepage-button"}>
+                        DE
+                    </button>
+                    </Link>
+                    <Link to="/projects/1/collaborative" style={{ textDecoration: "none", color: "inherit" }}>
+                    <button className={"card-homepage-button"}>
+                        CDL
+                    </button>
+                    </Link>
                 </div>
                 <div className="card-homepage-grid">
                     <div>
-                        <img src={require('../assets/images/Star.png')}/>
+                        <img src={require('../assets/images/Star.png')} />
                     </div>
                     <div>
-                        <h2>VLE versus Grades</h2>
+                    <Link to="/projects/1" style={{ textDecoration: "none", color: "inherit" }}>
+                    <h2>VLE versus Grades</h2>
+                    </Link>
                         <p>Study of student participations with VLE and their corresponding grades</p>
                     </div>
-                    <button className={"card-homepage-button"}>DE</button><button className={"card-homepage-button"}>CDL</button>
+                    <Link to="/projects/1/exploration" style={{ textDecoration: "none", color: "inherit" }}>
+                    <button className={"card-homepage-button"}>
+                        DE
+                    </button>
+                    </Link>
+                    <Link to="/projects/1/collaborative" style={{ textDecoration: "none", color: "inherit" }}>
+                    <button className={"card-homepage-button"}>
+                        CDL
+                    </button>
+                    </Link>
                 </div>
             </div>
 
