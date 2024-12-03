@@ -95,6 +95,27 @@ export default function DataPage(props: DataPageProps) {
 
     return (
         <div>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, padding: 4 }}>
+                <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+                    <Typography variant="body2" color="textSecondary">
+                        Dashboard
+                    </Typography>
+                </Link>
+                <Typography variant="body2" color="textSecondary">
+                    &gt;
+                </Typography>
+                <Link to="/projects/1" style={{ textDecoration: "none", color: "inherit" }}>
+                    <Typography variant="body2" color="textSecondary">
+                        VLE Versus Grades
+                    </Typography>
+                </Link>
+                <Typography variant="body2" color="textSecondary">
+                    &gt;
+                </Typography>
+                <Typography variant="body2" color="textPrimary">
+                    {props.pageType === 'COLLABORATIVE' ? 'Collaborative Data Lab' : 'Data Exploration'}
+                </Typography>
+            </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Box>
                     <h2>{props.pageType === 'COLLABORATIVE' ? 'Collaborative Data Lab' : 'Data Exploration'}</h2>
