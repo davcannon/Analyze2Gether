@@ -16,9 +16,19 @@ export default function ProjectPage() {
     return (
         <Box sx={{ padding: 4 }}>
 
-            <Typography variant="body2" color="textSecondary">
-                Dashboard &gt; VLE Versus Grades
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+                    <Typography variant="body2" color="textSecondary">
+                        Dashboard
+                    </Typography>
+                </Link>
+                <Typography variant="body2" color="textSecondary">
+                    &gt;
+                </Typography>
+                <Typography variant="body2" color="textPrimary">
+                    VLE Versus Grades
+                </Typography>
+            </Box>
 
             <Typography variant="h4" fontWeight="bold" mt={2}>
                 VLE versus Grades
